@@ -8,7 +8,7 @@
 Syriac New Testament
 ====================
 
-[![DOI](https://zenodo.org/badge/153227276.svg)](https://doi.org/10.5281/zenodo.1463675)
+[![DOI](https://zenodo.org/badge/153414018.svg)](https://doi.org/10.5281/zenodo.1464787)
 
 The Syriac New Testament is considered part of the Peshitta.
 See [Wikipedia](https://en.wikipedia.org/wiki/Peshitta#New_Testament_Peshitta).

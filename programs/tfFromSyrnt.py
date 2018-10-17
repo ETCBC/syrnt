@@ -304,17 +304,39 @@ def parseCorpus():
 def loadTf():
     print(f'Load TF dataset for the first time')
     TF = Fabric(locations=TF_PATH, modules=[''])
-    TF.load('')
+    api = TF.load('')
     allFeatures = TF.explore(silent=False, show=True)
     loadableFeatures = allFeatures['nodes'] + allFeatures['edges']
-    TF.load(loadableFeatures)
+    TF.load(loadableFeatures, add=True)
+    return api
 
     print('All done')
 
 
+def writePlain(api):
+  F = api.F
+  T = api.T
+  L = api.L
+  print(f'Writing out plain text per book')
+  if os.path.exists(PLAIN_PATH):
+    rmtree(PLAIN_PATH)
+  os.makedirs(PLAIN_PATH, exist_ok=True)
+  for b in F.otype.s('book'):
+    book = T.sectionFromNode(b)[0]
+    with open(f'{PLAIN_PATH}/{book}.txt', 'w') as f:
+      acro = F.book.v(b)
+      f.write(f'{book} ({acro})\n\n')
+      for c in L.d(b, otype='chapter'):
+        f.write(f'{acro} {F.chapter.v(c)}\n\n')
+        for v in L.d(c, otype='verse'):
+          f.write(f'{F.verse.v(v)} {T.text(v)}\n')
+        f.write('\n')
+
+
 def main():
     parseCorpus()
-    loadTf()
+    api = loadTf()
+    writePlain(api)
 
 
 main()
