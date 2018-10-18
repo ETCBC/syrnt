@@ -8,7 +8,7 @@
 @sourceUrl=https://sedra.bethmardutho.org/about/contributors
 @valueType=str
 @writtenBy=Text-Fabric
-@dateWritten=2018-10-17T14:38:11Z
+@dateWritten=2018-10-18T09:38:33Z
 
 1-109640	word
 109641-109667	book

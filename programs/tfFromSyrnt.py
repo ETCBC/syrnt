@@ -5,6 +5,7 @@ from shutil import rmtree
 from glob import glob
 from functools import reduce
 from tf.fabric import Fabric
+from tf.transcription import Transcription
 
 from constants import NT_BOOKS, BOOK_EN, SyrNT, tosyr
 
@@ -29,6 +30,8 @@ SHOW = True
 NA_VALUE = 'NA'
 NA_VALUES = {'n/a'}
 
+TR = Transcription()
+
 for cdir in (TEMP_DIR, TF_PATH):
     os.makedirs(cdir, exist_ok=True)
 
@@ -49,17 +52,20 @@ specificMetaData = collections.OrderedDict(
     fmhdot='feminine he dot',
     gn='gender',
     lexeme='lexeme of the word in syriac script',
-    lexeme_ascii='lexeme of the word in sedra transcription',
+    lexeme_sedra='lexeme of the word in SEDRA transcription',
+    lexeme_etcbc='lexeme of the word in ETCBC/Wit transcription',
     nmtyp='numeral type',
     ntyp='noun type',
     nu='number',
-    prefix='prefix',
-    prefix_ascii='prefix ascii',
+    prefix='prefix of the word in syriac script',
+    prefix_sedra='prefix of the word in SEDRA transcription',
+    prefix_etcbc='prefix of the word in ETCBC/Wit transcription',
     prtyp='pronoun_type',
     ps='person',
     ptctyp='participle type',
-    root='root',
-    root_ascii='root ascii',
+    root='root of the word in syriac script',
+    root_sedra='root of the word in SEDRA transcription',
+    root_etcbc='root of the word in ETCBC/Wit transcription',
     seyame='seyame',
     sfcontract='suffix contraction',
     sfgn='suffix gender',
@@ -67,15 +73,18 @@ specificMetaData = collections.OrderedDict(
     sfps='suffix person',
     sp='part of speech (grammatical category)',
     st='state',
-    stem='stem',
-    stem_ascii='stem ascii',
-    suffix='suffix',
-    suffix_ascii='suffix ascii',
+    stem='stem of the word in syriac script',
+    stem_sedra='stem of the word in SEDRA transcription',
+    stem_etcbc='stem of the word in ETCBC/Wit transcription',
+    suffix='suffix of the word in syriac script',
+    suffix_sedra='suffix of the word in SEDRA transcription',
+    suffix_etcbc='suffix of the word in ETCBC/Wit transcription',
     verse='verse number',
     vs='verbal conjugation',
     vt='verbal aspect (tense)',
     word='full form of the word in syriac script',
-    word_ascii='full form of the word in sedra transcription',
+    word_sedra='full form of the word in SEDRA transcription',
+    word_etcbc='full form of the word in ETCBC/Wit transcription',
 )
 langMetaData = dict(
     en=dict(
@@ -96,9 +105,9 @@ oText = {
     'sectionFeatures': 'book,chapter,verse',
     'sectionTypes': 'book,chapter,verse',
     'fmt:text-orig-full': '{word} ',
-    'fmt:text-trans-full': '{word_ascii} ',
+    'fmt:text-trans-full': '{word_etcbc} ',
     'fmt:lex-orig-full': '{lexeme} ',
-    'fmt:lex-trans-full': '{lexeme_ascii} ',
+    'fmt:lex-trans-full': '{lexeme_etcbc} ',
 }
 
 
@@ -184,18 +193,23 @@ def parseCorpus():
         for word in words:
             curSlot += 1
             (wordTrans, annotationStr) = word.split('|', 1)
+            wordSyr = wordTrans.translate(tosyr)
+            wordEtcbc = TR.from_syriac(wordSyr)
             annotations = annotationStr.split('#')
             wordNode = ('word', curSlot)
-            nodeFeatures['word_ascii'][wordNode] = wordTrans
+            nodeFeatures['word_sedra'][wordNode] = wordTrans
+            nodeFeatures['word_etcbc'][wordNode] = wordEtcbc
             nodeFeatures['word'][wordNode] = wordTrans.translate(tosyr)
             for ((feature, values), data) in zip(annotSpecs, annotations):
                 value = data if values is None else values[int(data)]
-                featureName = f'{feature}_ascii' if values is None else feature
                 if values is None:
-                    nodeFeatures[feature][wordNode] = value.translate(tosyr)
-                nodeFeatures[featureName][wordNode] = (
+                  nodeFeatures[f'{feature}_sedra'][wordNode] = value
+                  value = value.translate(tosyr)
+                  valueEtcbc = TR.from_syriac(value)
+                  nodeFeatures[f'{feature}_etcbc'][wordNode] = valueEtcbc
+                nodeFeatures[feature][wordNode] = (
                     value
-                    if featureName in numFeatures
+                    if feature in numFeatures
                     else NA_VALUE if value in NA_VALUES
                     else value
                 )
@@ -205,8 +219,11 @@ def parseCorpus():
                 cur['lexeme'] += 1
                 lexNode = ('lexeme', cur['lexeme'])
                 nodeFeatures['lexeme'][lexNode] = lexeme
-                nodeFeatures['lexeme_ascii'][lexNode] = (
-                    nodeFeatures['lexeme_ascii'][wordNode]
+                nodeFeatures['lexeme_sedra'][lexNode] = (
+                    nodeFeatures['lexeme_sedra'][wordNode]
+                )
+                nodeFeatures['lexeme_etcbc'][lexNode] = (
+                    nodeFeatures['lexeme_etcbc'][wordNode]
                 )
             context.append(('lexeme', cur['lexeme']))
             for (nt, curNode) in context:
@@ -335,8 +352,8 @@ def writePlain(api):
 
 def main():
     parseCorpus()
-    api = loadTf()
-    writePlain(api)
+    # api = loadTf()
+    # writePlain(api)
 
 
 main()
