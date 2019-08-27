@@ -7,7 +7,7 @@
 
 Syriac New Testament
 ====================
-[![sha](sha.png) Software Heritage Archive](https://archive.softwareheritage.org/browse/origin/https://github.com/ETCBC/syrnt/)
+[![sha](sha.png) Software Heritage Archive](https://archive.softwareheritage.org/browse/origin/https://github.com/etcbc/syrnt/)
 
 [![DOI](https://zenodo.org/badge/153414018.svg)](https://doi.org/10.5281/zenodo.1464787)
 
