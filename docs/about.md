@@ -6,7 +6,9 @@ Syriac New Testament
 
 This repo is a research environment for the study of the Syriac New Testament.
 You can run your own programs off-line, and publish your work in online notebooks.
-To that end, the plain text of the Peshitta has brought into the Text-Fabric format,
+To that end, the plain text of the Peshitta has brought into
+[Text-Fabric](hhtps://github.com/annotation/text-fabric)
+format,
 which lends itself for easy data processing.
 
 Corpus

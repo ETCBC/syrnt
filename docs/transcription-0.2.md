@@ -14,7 +14,7 @@ Conversion from SEDRA 3.0 to TF
 ---------------------------------
 
 Below is an account how we transform SEDRA database into
-[Text-Fabric](https://dans-labs.github.io/text-fabric/) format by means of
+[Text-Fabric](https://annotation.github.io/text-fabric/tf) format by means of
 [tfFromSyrnt.py](../programs/tfFromSyrnt.py).
 
 The Text-Fabric model views the text as a series of atomic units, called
@@ -25,9 +25,9 @@ this corpus we have node types for: *word*, *verse*,
 *chapter*, and *book*.
 
 The type of every node is given by the feature
-[**otype**](https://dans-labs.github.io/text-fabric/Api/General/#node-features).
+[**otype**](https://annotation.github.io/text-fabric/tf/cheatsheet.html#special-node-feature-otype).
 Every node is linked to a subset of slots by
-[**oslots**](https://dans-labs.github.io/text-fabric/Api/General/#edge-features).
+[**oslots**](https://annotation.github.io/text-fabric/tf/cheatsheet.html#special-edge-feature-oslots).
 
 Nodes can be related by means of edges.
 
@@ -39,9 +39,7 @@ Text-Fabric supports three customizable section levels. In this corpus they are
 Other docs
 ----------
 
-[Text-Fabric API](https://dans-labs.github.io/text-fabric/Api/General/)
-
-[Syrnt API](https://dans-labs.github.io/text-fabric/Api/Syrnt/)
+[Text-Fabric API](https://annotation.github.io/text-fabric/tf/cheatsheet.html)
 
 Reference table of features
 ===========================
