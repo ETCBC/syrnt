@@ -68,7 +68,7 @@ The ecosystem is Python and Jupyter notebooks.
 # Getting started
 
 Start with the
-[tutorial](https://nbviewer.jupyter.org/github/annotation/tutorials/blob/master/syrnt/start.ipynb).
+[tutorial](https://nbviewer.jupyter.org/github/etcbc/syrnt/blob/master/tutorial/start.ipynb).
 
 # Authors
 
