@@ -35,7 +35,7 @@ made by George A. Kiraz and James W. Bennett.
 The data base version is 3.0, March 1996.
 
 The SEDRA data for the Syriac New Testament is based on manuscripts
-from the Ancient Biblical Manuscript Center. Its url, 
+from the Ancient Biblical Manuscript Center. Its URL, 
 [http://www.abmc.org/](http://www.abmc.org/) is currently not served.
 
 
